@@ -28,6 +28,14 @@
     }
 
     .btn {
-        @apply bg-primary-700 text-white py-3 px-5 rounded hover:bg-primary-900;
+        @apply bg-primary-600 text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 hover:bg-primary-700 focus:outline-none;
+    }
+
+    .inputField:not(:first-child), .formBtnBox {
+        @apply mt-4;
+    }
+
+    .inputField input {
+        @apply w-full bg-transparent transition-all rounded-lg border-2 border-primary-600 focus:border-white ring-0 outline-none focus:ring-0 placeholder:text-white placeholder:opacity-80;
     }
 }

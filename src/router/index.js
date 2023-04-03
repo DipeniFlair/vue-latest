@@ -4,6 +4,7 @@ import HelloWorld from "../views/pages/HelloWorld.vue";
 import TheWelcome from "../views/pages/TheWelcome.vue";
 import RickAndMorty from "../views/pages/RickAndMorty.vue";
 import WallPaper from "../views/pages/WallPaper.vue";
+import Login from "../views/auth/login.vue";
 
 
 
@@ -30,6 +31,12 @@ const routes = [
     path: "/WallPaper",
     name: "WallPaper",
     component: WallPaper,
+  },
+  
+  {
+    path: "/Login",
+    name: "Login",
+    component: Login,
   },
  
 ];
