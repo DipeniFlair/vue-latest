@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .container {
+        @apply px-5 mx-auto;
+    }
+
+    .navLink {
+        @apply block py-2 pr-4 pl-3 border-b lg:border-0 lg:p-0 text-gray-400 lg:hover:text-white hover:bg-gray-700 hover:text-white lg:hover:bg-transparent border-gray-700 transition-all;
+    }
+
+    .navActive {
+        @apply text-primary-400;
+    }
+
+    .paginationList {
+        @apply  flex items-center justify-center gap-x-5 mt-10 text-white;
+    }
+
+    .paginationLink {
+        @apply px-5 py-2 rounded bg-green-600 hover:bg-green-900 transition-all;
+    }
+
+    .disabledLink {
+        @apply pointer-events-none bg-gray-500;
+    }
+
+    .btn {
+        @apply bg-primary-700 text-white py-3 px-5 rounded hover:bg-primary-900;
+    }
+}
