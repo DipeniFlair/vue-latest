@@ -38,4 +38,8 @@
     .inputField input {
         @apply w-full bg-transparent transition-all rounded-lg border-2 border-primary-600 focus:border-white ring-0 outline-none focus:ring-0 placeholder:text-white placeholder:opacity-80;
     }
+
+    .checkboxDesign {
+        @apply appearance-none rounded ring-0 focus:outline-0 focus:outline-none shadow-none focus:shadow-none focus-visible:outline-none focus:ring-0 checked:bg-primary-600;
+    }
 }

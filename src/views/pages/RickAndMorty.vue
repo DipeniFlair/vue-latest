@@ -28,8 +28,8 @@
             <nav class="pagination" role="navigation" aria-label="pagination">
                 <ul class="paginationList">
                     <li><a href="javascript:void(0)" class="paginationLink" :class="{
-                    disabledLink: page == 1
-                }" @click="changePage( page - 1)">Prev</a></li>
+                        disabledLink: page == 1
+                    }" @click="changePage( page - 1)">Prev</a></li>
                     <li>
                         <a class="pagination-link is-current">{{page}}</a>
                     </li>
@@ -82,11 +82,11 @@
                 const errorThis = this;
 
                 let url = "https://rickandmortyapi.com/api/character";
-                let result = await axios
+                await axios
                 .get(url, { params }, (this.loading = true))
                 .then(res => {
                     this.characters = res.data.results;
-                    this.loading = false;
+                    // this.loading = false;
                     this.pages = res.data.info.pages;
 
                     errorThis.notFoundError = null;
@@ -98,7 +98,7 @@
                         errorThis.notFoundError = error.response.data.error;
                     }
                 });
-                console.log(result);
+                this.loading = false;
             },
             changePage(page) {
                 this.page = page <= 0 || page > this.pages ? this.page : page;

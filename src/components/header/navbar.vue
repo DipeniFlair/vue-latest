@@ -3,11 +3,11 @@
     <header>
         <nav class="border-gray-200 px-4 lg:px-6 py-2.5 bg-gray-800">
             <div class="container flex flex-wrap justify-between items-center px-1.5">
-                <router-link to="./" class="flex items-center text-primary-300">
+                <router-link to="/" class="flex items-center text-primary-300">
                     <span class="self-center text-xl font-semibold whitespace-nowrap">Vue-Latest</span>
                 </router-link>
                 <div class="flex items-center lg:order-2">
-                    <router-link to="/Login" class="text-white focus:ring-4 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 hover:bg-gray-700 focus:outline-none">Login</router-link>
+                    <router-link to="/auth/Login" class="text-white focus:ring-4 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 hover:bg-gray-700 focus:outline-none">Login</router-link>
                     <a href="#" class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 bg-primary-600 hover:bg-primary-700 focus:outline-none">Get started</a>
                     <button data-collapse-toggle="main-mobile-menu" type="button" class="inline-flex items-center p-2 ml-1 text-sm rounded-lg lg:hidden focus:outline-none text-gray-400 hover:bg-gray-700" aria-controls="mobile-menu-2" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
@@ -27,7 +27,7 @@
                             <router-link to="/WallPaper" class="navLink">WallPaper</router-link>
                         </li>
                         <li>
-                            <a href="#" class="navLink">About Us</a>
+                            <router-link to="/TodoItems" class="navLink">Todo List</router-link>
                         </li>
                         <li>
                             <a href="#" class="navLink">Contact</a>

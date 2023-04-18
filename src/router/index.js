@@ -5,7 +5,7 @@ import TheWelcome from "../views/pages/TheWelcome.vue";
 import RickAndMorty from "../views/pages/RickAndMorty.vue";
 import WallPaper from "../views/pages/WallPaper.vue";
 import Login from "../views/auth/login.vue";
-
+import TodoItems from "../views/pages/TodoItems.vue";
 
 
 const routes = [
@@ -34,7 +34,13 @@ const routes = [
   },
   
   {
-    path: "/Login",
+    path: "/TodoItems",
+    name: "TodoItems",
+    component: TodoItems,
+  },
+  
+  {
+    path: "/auth/Login",
     name: "Login",
     component: Login,
   },
