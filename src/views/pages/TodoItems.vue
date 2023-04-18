@@ -96,7 +96,7 @@ export default {
 	watch: {},
 	methods: {
 		addToDo() {
-			if (this.inputVal != "") {
+			if (this.inputVal.trim() !== "") {
 				let newItem = this.inputVal.trim("");
 				let results = false;
 				this.notFoundError = null;
