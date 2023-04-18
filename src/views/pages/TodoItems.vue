@@ -18,23 +18,37 @@
               </button>
               <button
                 class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none"
-                type="button" @click="showCompleted()">
+                type="button" @click="showView(todos, 'all')">
+                Show All
+              </button>
+              <button
+                class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none"
+                type="button" @click="showView(todos, 'completed')">
                 Show Completed
               </button>
               <button
                 class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none"
-                type="button" @click="showRemaining()">
+                type="button" @click="showView(todos, 'remaining')">
                 Show Remaining
               </button>
             </div>
           </form>
-          <ul v-if="todos">
+          <ul v-if="todos && this.previewEnabled == false">
             <li v-for="todo in todos" :key="todo.id">
               <a href="javascript:void(0)" @click="toggleTodo(todo)"
                 class="py-3 px-5 bg-gray-700 text-left hover:bg-gray-900 transition-all flex gap-4 items-center" :class="{
                   'bg-gray-900 line-through': todo.status == true,
                 }"><input type="checkbox" id="" :checked="todo.status == true" class="checkboxDesign" />
                 {{ todo.text }}</a>
+            </li>
+          </ul>
+          <ul v-if="previewTodos && this.previewEnabled == true">
+            <li v-for="previewTodo in previewTodos" :key="previewTodo.id">
+              <a href="javascript:void(0)" @click="toggleTodo(previewTodo)"
+                class="py-3 px-5 bg-gray-700 text-left hover:bg-gray-900 transition-all flex gap-4 items-center" :class="{
+                  'bg-gray-900 line-through': previewTodo.status == true,
+                }"><input type="checkbox" id="" :checked="previewTodo.status == true" class="checkboxDesign" />
+                {{ previewTodo.text }}</a>
             </li>
           </ul>
         </div>
@@ -49,7 +63,8 @@ export default {
     return {
       inputVal: "",
       todos: [],
-      finished: [],
+      previewTodos: [],
+      previewEnabled: false,
       STORAGE_KEY: "vue-latest-todo-list",
     };
   },
@@ -97,14 +112,19 @@ export default {
       todo.status = !todo.status;
       localStorage.todos = JSON.stringify(this.todos);
     },
-    showCompleted() {
-      this.finished = this.todos.filter(todo => todo.status)
-      console.log("here's completed tasks", this.finished);
-      // localStorage.todos = JSON.stringify(this.todos);
-    },
-    showRemaining() {
-      this.remaining = this.todos.filter(todo => !todo.status)
-      console.log("showing remaining", this.remaining);
+    showView(list, view) {
+      console.log("Current View", list, view);
+      if (view == 'completed') {
+        this.previewEnabled = true;
+        this.previewTodos = this.todos.filter(todo => todo.status);
+      } else if (view == 'remaining') {
+        this.previewEnabled = true;
+        this.previewTodos = this.todos.filter(todo => !todo.status);
+      } else {
+        this.previewEnabled = false;
+        this.previewTodos = [];
+        this.todos = this.todos;
+      }
     },
   },
 };
