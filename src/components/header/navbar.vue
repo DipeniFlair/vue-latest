@@ -30,7 +30,10 @@
                             <router-link to="/TodoItems" class="navLink">Todo List</router-link>
                         </li>
                         <li>
-                            <a href="#" class="navLink">Contact</a>
+                            <router-link to="/PDFpreview" class="navLink">PDFpreview</router-link>
+                        </li>
+                        <li>
+                            <router-link to="/PDFpreviewOriginal" class="navLink">PDFpreviewOriginal</router-link>
                         </li>
                     </ul>
                 </div>

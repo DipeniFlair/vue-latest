@@ -12,29 +12,14 @@
 								class="rounded-lg outline-none focus:ring-0 border-primary-500 focus:border-primary-700 bg-transparent text-white border-r-0 rounded-r-none px-3.5 leading-4"
 								placeholder="Add item" />
 						</div>
-						<div class="control flex gap-x-4">
+						<div class="control flex gap-x-4 mb-5">
 							<button
 								class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 rounded-l-none border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none"
 								type="submit">
 								Add Task
 							</button>
 							<button
-								class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none"
-								type="button" @click="showView('all')">
-								Show All
-							</button>
-							<button
-								class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none"
-								type="button" @click="showView('completed')">
-								Show Completed
-							</button>
-							<button
-								class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none"
-								type="button" @click="showView('remaining')">
-								Show Remaining
-							</button>
-							<button
-								class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none"
+								class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-red-500 bg-red-600 hover:bg-red-700 focus:outline-none"
 								type="button" @click="clearCompleted()">
 								Clear Completed
 							</button>
@@ -60,6 +45,23 @@
 								{{ previewTodo.text }}</a>
 						</li>
 					</ul>
+					<div class="flex gap-x-5 mt-5 justify-center">
+						<button
+							class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none"
+							type="button" @click="showView('all')">
+							Show All
+						</button>
+						<button
+							class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none line-through"
+							type="button" @click="showView('completed')">
+							Show Completed
+						</button>
+						<button
+							class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none"
+							type="button" @click="showView('remaining')">
+							Show Remaining
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
