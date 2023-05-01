@@ -1,6 +1,6 @@
 <template>
 
-    <header>
+    <header id="mainHeader">
         <nav class="border-gray-200 px-4 lg:px-6 py-2.5 bg-gray-800">
             <div class="container flex flex-wrap justify-between items-center px-1.5">
                 <router-link to="/" class="flex items-center text-primary-300">

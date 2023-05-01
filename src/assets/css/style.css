@@ -3,6 +3,32 @@
 @tailwind utilities;
 
 @layer components {
+    /* Firefox */
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: transparent #a1a1a1;
+    }
+
+    /* Chrome, Edge, and Safari */
+    *::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: transparent;
+        border-radius: 5px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: #a1a1a1;
+        border-radius: 14px;
+        transition: all 0.3s ease-in-out;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+        background-color: #9333ea;
+    }
+
     .container {
         @apply px-5 mx-auto;
     }
