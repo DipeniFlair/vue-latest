@@ -14,7 +14,7 @@
                     </div>
                     <div class="flex justify-center items-center mt-10 text-center gap-5">
                         <span class="text-lg">Page</span>
-                        <input type="number" id="current_page" v-model.number="currentPage" disabled @keypress.enter="randomPage()"
+                        <input type="number" id="current_page" v-model.number="currentPage" disabled min="1" :max="totalPages" @keypress.enter="randomPage()"
                             class="w-20 rounded-lg outline-none focus:ring-0 border-primary-500 focus:border-primary-700 bg-transparent text-white px-3.5 leading-4" />
                         <span class="text-lg">of</span>
                         <input type="number" id="totalNumber" :value="totalPages" disabled
@@ -38,6 +38,8 @@
                     <a :href="downloadImage" data-fancybox="PDFPreview">
                         <canvas id="pdf_renderer" class="mx-auto max-w-full h-full"></canvas>
                     </a>
+                </div>
+                <div id="generateThumbPreview">
                 </div>
             </div>
         </div>
@@ -113,8 +115,8 @@ export default {
                         document.getElementById("nextBtn").removeAttribute("disabled")
                     }
                     // setTimeout(() => {
-                        var pdf_renderer = document.getElementById("pdf_renderer");
-                        pdf_renderer.toBlob((blob) => {
+                        // var pdf_renderer = document.getElementById("pdf_renderer");
+                        canvas.toBlob((blob) => {
                             const url = URL.createObjectURL(blob);
                             this.downloadImage = url;
                         })
@@ -150,8 +152,18 @@ export default {
             pdfjsLib.getDocument(objectURL).promise.then((pdf) => {
                 this.pdf = pdf;
                 this.render();
+                this.generateThumb(this.pdf);
             });
             this.currentPage = 1;
+        },
+
+        generateThumb(i) {
+            let generateThumbPreview =  document.getElementById("generateThumbPreview");
+            console.log(i, "generateThumbPreview", generateThumbPreview);
+            // i.numPages
+            // i.numPages.forEach(element => {
+            //     console.log("element", element);
+            // });
         },
 
         goToPage(pageCount) {
