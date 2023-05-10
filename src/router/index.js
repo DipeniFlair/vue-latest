@@ -7,7 +7,7 @@ import WallPaper from "../views/pages/WallPaper.vue";
 import Login from "../views/auth/login.vue";
 import TodoItems from "../views/pages/TodoItems.vue";
 import PDFpreview from "../views/pages/PDFpreview.vue";
-import PDFpreviewOriginal from "../views/pages/PDFpreviewOriginal.vue";
+// import PDFpreviewOriginal from "../views/pages/PDFpreviewOriginal.vue";
 
 
 const routes = [
@@ -53,11 +53,11 @@ const routes = [
     component: PDFpreview,
   },
 
-  {
-    path: "/PDFpreviewOriginal",
-    name: "PDFpreviewOriginal",
-    component: PDFpreviewOriginal,
-  }
+  // {
+  //   path: "/PDFpreviewOriginal",
+  //   name: "PDFpreviewOriginal",
+  //   component: PDFpreviewOriginal,
+  // }
  
 ];
 

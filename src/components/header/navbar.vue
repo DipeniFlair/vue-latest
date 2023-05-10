@@ -32,9 +32,9 @@
                         <li>
                             <router-link to="/PDFpreview" class="navLink">PDFpreview</router-link>
                         </li>
-                        <li>
+                        <!-- <li>
                             <router-link to="/PDFpreviewOriginal" class="navLink">PDFpreviewOriginal</router-link>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>

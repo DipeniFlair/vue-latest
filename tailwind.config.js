@@ -19,6 +19,21 @@ module.exports = {
       // "color-mask": "#d8d8d8",
       // "dark-grey": "#191c1f",
     },
+    animation: {
+      text: 'text 5s ease infinite',
+    },
+    keyframes: {
+      text: {
+        '0%, 100%': {
+          'background-size': '300% 300%',
+          'background-position': 'left center',
+        },
+        '50%': {
+          'background-size': '300% 300%',
+          'background-position': 'right center',
+        },
+      },
+    },
     extend: {},
   },
   plugins: [

@@ -1,5 +1,5 @@
 <template>
-    <loader v-if="loading == true" />
+    <loader v-if="loading == true" v-bind:loadingText="loadingText" />
     <section id="pdfPreview" class="py-5">
         <div class="container">
             <div class="flex flex-row flex-wrap lg:flex-nowrap">
@@ -14,7 +14,8 @@
                     </div>
                     <div class="flex justify-center items-center mt-10 text-center gap-5">
                         <span class="text-lg">Page</span>
-                        <input type="number" id="current_page" v-model.number="currentPage" disabled min="1" :max="totalPages" @keypress.enter="randomPage()"
+                        <input type="number" id="current_page" v-model.number="currentPage" disabled min="1"
+                            :max="totalPages" @keypress.enter="randomPage(currentPage)"
                             class="w-20 rounded-lg outline-none focus:ring-0 border-primary-500 focus:border-primary-700 bg-transparent text-white px-3.5 leading-4" />
                         <span class="text-lg">of</span>
                         <input type="number" id="totalNumber" :value="totalPages" disabled
@@ -31,15 +32,25 @@
                         </button>
                     </div>
                     <div class="downloadBox text-center mt-10">
-                        <a v-if="downloadImage != null" :href="downloadImage" class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none" id="downloadImage" download="image.png">Download Image</a>
+                        <a v-if="downloadImage != null" :href="downloadImage"
+                            class="text-white font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 border-primary-500 bg-primary-600 hover:bg-primary-700 focus:outline-none"
+                            id="downloadImage" download="image.png">Download Image</a>
                     </div>
                 </div>
-                <div id="pdfPreviewCover" class="w-full max-w-5xl overflow-hidden overflow-y-auto px-5 flex justify-center">
+                <div id="pdfPreviewCover" class="w-full max-w-4xl overflow-hidden overflow-y-auto px-5 flex justify-center">
                     <a :href="downloadImage" data-fancybox="PDFPreview">
                         <canvas id="pdf_renderer" class="mx-auto max-w-full h-full"></canvas>
                     </a>
                 </div>
-                <div id="generateThumbPreview">
+                <div id="generateThumbPreview"
+                    class="w-full max-w-[160px] flex flex-col gap-y-3 overflow-hidden overflow-y-auto text-white">
+                    <div class="w-40 relative z-0" v-for="(thumbnail, i) in thumbnails" :key="i">
+                        <a :href="thumbnail" @click.prevent="randomPage(i + 1)" data-fancybox="PDFPreview"
+                            class=" min-h-[40px] bg-purple-400 block">
+                            <img :src="thumbnail" class="w-full" />
+                            <span class="absolute z-10 top-2 right-2 bg-primary-800 shadow-md shadow-gray-900 w-7 h-7 flex justify-center items-center rounded-full">{{ i + 1 }}</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -50,7 +61,6 @@
 import * as pdfjsLib from 'pdfjs-dist';
 import loader from "../../components/helpers/loader.vue";
 import { toRaw } from 'vue';
-pdfjsLib.GlobalWorkerOptions.workerSrc = '../../node_modules/pdfjs-dist/build/pdf.worker.js';
 import { Fancybox } from '@fancyapps/ui/dist/fancybox/fancybox.esm.js';
 import '@fancyapps/ui/dist/fancybox/fancybox.css';
 
@@ -64,8 +74,10 @@ export default {
             totalPages: 0,
             zoom: 1,
             loading: false,
+            loadingText: null,
             randomPageNumber: 0,
             downloadImage: null,
+            thumbnails: []
         }
     },
     components: {
@@ -73,15 +85,21 @@ export default {
     },
     mounted() {
 
+        document.title = "PDF Preview";
+
+        const pdfjsWorker = import('pdfjs-dist/build/pdf.worker.entry');
+        pdfjsLib.GlobalWorkerOptions.workerSrc = pdfjsWorker;
+
         function pageHeight() {
             let bodyHeight = window.innerHeight;
             let mainHeader = document.getElementById("mainHeader").offsetHeight;
             let pdfPreviewCover = document.getElementById("pdfPreviewCover");
-            // console.log("mainHeader", mainHeader, bodyHeight, pdfPreviewCover);
+            let generateThumbPreview = document.getElementById("generateThumbPreview");
             pdfPreviewCover.style.height = bodyHeight - mainHeader - '40' + 'px';
+            generateThumbPreview.style.height = bodyHeight - mainHeader - '40' + 'px';
         }
         pageHeight();
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             pageHeight();
         }, true);
     },
@@ -94,7 +112,7 @@ export default {
 
             toRaw(this.pdf).getPage(this.currentPage).then((page) => {
                 const canvas = document.getElementById('pdf_renderer');
-                const ctx = canvas.getContext('2d', {willReadFrequently: true});
+                const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
                 const viewport = page.getViewport({ scale: this.zoom * 3 });
                 canvas.width = viewport.width;
@@ -108,35 +126,77 @@ export default {
 
                 renderTask.promise.then(() => {
                     this.totalPages = this.pdf.numPages;
-                    this.loading = false;
+                    // this.loading = false;
                     if (this.pdf.numPages == this.currentPage) {
                         document.getElementById("nextBtn").setAttribute("disabled", "disabled")
                     } else {
                         document.getElementById("nextBtn").removeAttribute("disabled")
                     }
                     // setTimeout(() => {
-                        // var pdf_renderer = document.getElementById("pdf_renderer");
-                        canvas.toBlob((blob) => {
-                            const url = URL.createObjectURL(blob);
-                            this.downloadImage = url;
-                        })
-                        Fancybox.bind('[data-fancybox]', {
-                            Toolbar: {
-                                display: {
-                                    left: ["infobar"],
-                                    middle: [],
-                                    right: [
-                                        "zoom",
-                                        "fullscreen", 
-                                        "close",
-                                    ],
-                                },
+                    // var pdf_renderer = document.getElementById("pdf_renderer");
+                    canvas.toBlob((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        this.downloadImage = url;
+                    })
+                    Fancybox.bind('[data-fancybox]', {
+                        Toolbar: {
+                            display: {
+                                left: ["infobar"],
+                                middle: [],
+                                right: [
+                                    "zoom",
+                                    "fullscreen",
+                                    "close",
+                                ],
                             },
-                        });
-                        Fancybox.defaults.Hash = false;
-                    // }, 1000);
+                        },
+                    });
+                    Fancybox.defaults.Hash = false;
                 });
             });
+        },
+
+        async generateThumbnails() {
+            if (!this.pdf) {
+                return;
+            }
+
+            this.thumbnails = [];
+            setTimeout(() => {
+                this.loading = true;
+                this.loadingText = "Thumbnails are loading"
+            }, 100);
+
+            const numPages = this.pdf.numPages;
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+            // Loop through all pages of the PDF and render each page to a canvas element
+            const promises = [];
+            for (let i = 1; i <= numPages; i++) {
+                const page = await toRaw(this.pdf).getPage(i);
+                const viewport = page.getViewport({ scale: 3 });
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport,
+                };
+                await page.render(renderContext).promise;
+
+                // Capture canvas data as an image and use it as the thumbnail for this page
+                const promise = new Promise((resolve) => {
+                    canvas.toBlob((blob) => {
+                        const url = URL.createObjectURL(blob);
+                        resolve(url);
+                    });
+                });
+                promises.push(promise);
+            }
+            this.thumbnails = await Promise.all(promises);
+            this.loading = false;
+            this.loadingText = null;
+            console.log("thumbnails", this.thumbnails);
         },
 
 
@@ -145,59 +205,53 @@ export default {
                 return;
             }
             this.loading = true;
+            this.loadingText = "PDF is loading";
             const selectedFile = e.target.files[0];
             const objectURL = window.URL.createObjectURL(selectedFile);
-            console.log("selectedFile", selectedFile, "objectURL", objectURL);
-
+            
             pdfjsLib.getDocument(objectURL).promise.then((pdf) => {
                 this.pdf = pdf;
                 this.render();
-                this.generateThumb(this.pdf);
+                this.generateThumbnails();
+                this.loading = false;
             });
             this.currentPage = 1;
         },
 
-        generateThumb(i) {
-            let generateThumbPreview =  document.getElementById("generateThumbPreview");
-            console.log(i, "generateThumbPreview", generateThumbPreview);
-            // i.numPages
-            // i.numPages.forEach(element => {
-            //     console.log("element", element);
-            // });
+        loaderWaitFalse() {
+            setTimeout(() => {
+                this.loading = false;
+            }, 100);
         },
 
         goToPage(pageCount) {
-            console.log("pageCount", pageCount, "Total Pages", this.pdf.numPages);
             this.loading = true;
             if (pageCount == 1) {
                 this.currentPage += 1;
                 this.render();
+                this.loaderWaitFalse();
             } else if (pageCount == -1) {
                 this.currentPage -= 1;
                 this.render();
+                this.loaderWaitFalse();
             } else {
-                this.loading = false;
+                this.loaderWaitFalse();
             }
         },
 
-        randomPage() {
-            // console.log("Picked page number", this.currentPage, "this.randomPageNumber", this.randomPageNumber);
+        randomPage(randomPage) {
+            console.log("randomPage", randomPage);
             this.loading = true;
-            if (this.pdf.numPages <= this.currentPage) {
-                this.currentPage = this.pdf.numPages;
+            if (this.pdf.numPages <= randomPage-1) {
+                randomPage = this.pdf.numPages;
                 this.render();
+                this.loaderWaitFalse();
             } else {
+                this.currentPage = randomPage;
                 this.render();
+                this.loaderWaitFalse();
             }
-            this.loading = false;
         },
-
-        // downloadImage() {
-        //     var image = document.getElementById("pdf_renderer").toDataURL("image/png")
-        //         .replace("image/png", "image/octet-stream");
-        //     download.setAttribute("href", image);
-        //     //download.setAttribute("download","archive.png");
-        // }
     },
 }
 </script>
