@@ -10,7 +10,7 @@
 							class="text-5xl leading-normal text-transparent animate-text bg-clip-text bg-gradient-to-l from-purple-500 via-orange-500 to-purple-700">Dipen
 							Modi</h1>
 					</span>
-					<p class="text-xl">I'm Frontend Developer</p>
+					<p class="text-xl">I am an enthusiastic Frontend Designer based in India, with a rich experience of over 6 years in website & graphic design</p>
 				</div>
 			</div>
 		</div>
