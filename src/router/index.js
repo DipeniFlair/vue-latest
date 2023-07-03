@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 
 import HelloWorld from "../views/pages/HelloWorld.vue";
 import TheWelcome from "../views/pages/TheWelcome.vue";
@@ -64,7 +64,7 @@ const routes = [
 
 const router = createRouter({
   mode: 'history',
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   //historyApiFallback: true,
   routes,
   linkActiveClass: "navActive",
